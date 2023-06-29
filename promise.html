@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise</title>
+  </head>
+  <body>
+    <div id="wrapper"></div>
+
+    <button class="email">Email</button>
+    <button class="age">Age</button>
+    <button class="phone">Phone</button>
+
+    <script>
+      let email = document.querySelector(".email");
+      let age = document.querySelector(".age");
+      let phone = document.querySelector(".phone");
+
+      fetch("https://randomuser.me/api")
+        .then((photo) => {
+          return photo.json();
+        })
+        .then((data) => {
+          console.log(data);
+          RanImg(data);
+        });
+
+      function RanImg(parameter) {
+        let image = document.createElement("img");
+        image.src = parameter.results[0].picture.large;
+        document.querySelector("#wrapper").appendChild(image);
+        let names = document.createElement("h2");
+        names.innerHTML =
+          parameter.results[0].name.first +
+          " " +
+          parameter.results[0].name.last;
+        document.querySelector("#wrapper").appendChild(names);
+
+        let other = document.createElement("h3");
+        email.onclick = () => {
+          other.innerHTML = "";
+          other.innerHTML = parameter.results[0].email;
+          document.querySelector("#wrapper").appendChild(other);
+        };
+        age.onclick = () => {
+          other.innerHTML = "";
+          other.innerHTML = parameter.results[0].dob.age;
+          document.querySelector("#wrapper").appendChild(other);
+        };
+        phone.onclick = () => {
+          other.innerHTML = "";
+          other.innerHTML = parameter.results[0].phone;
+          document.querySelector("#wrapper").appendChild(other);
+        };
+      }
+    </script>
+  </body>
+</html>
